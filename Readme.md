@@ -1,7 +1,7 @@
 # Личный проект «YetiCave» 
 
 * Студент: [Дмитрий Бондарь](https://up.htmlacademy.ru/php/3/user/43015).
-* Наставник: `Неизвестно`.
+* Наставник: [Павел Кузнецов](https://htmlacademy.ru/profile/id417075).
 
 ---
 
