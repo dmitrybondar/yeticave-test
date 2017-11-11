@@ -7,17 +7,14 @@ $user_avatar = 'img/user.jpg';
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
-// записать в эту переменную оставшееся время в этом формате (ЧЧ:ММ)
-$lot_time_remaining = "00:00";
-
-// временная метка для полночи следующего дня
 $tomorrow = strtotime('tomorrow midnight');
-
-// временная метка для настоящего времени
 $now = strtotime('now');
+$remaining_seconds = $tomorrow - $now;
 
-// далее нужно вычислить оставшееся время до начала следующих суток и записать его в переменную $lot_time_remaining
-$lot_time_remaining = gmdate("H:i:s", $tomorrow - $now);
+$hours = floor(($remaining_seconds % 86400) / 3600);
+$minutes = floor(($remaining_seconds % 3600) / 60);
+
+$lot_time_remaining = $hours . ":" . $minutes;
 ?>
 <!DOCTYPE html>
 <html lang="ru">
