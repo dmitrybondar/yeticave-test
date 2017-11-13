@@ -13,12 +13,12 @@ function format_time($ts) {
     $hours_passed = $seconds_passed / 3600;
     $minutes_passed = $seconds_passed / 60;
 
-    if ($hours_passed > 24) {
+    if ($hours_passed >= 24) {
         return date("d.m.Y \в H:i", $ts);
-    } else if ($hours_passed > 1) {
-        return $hours_passed . " часов назад";
-    } else if ($minutes_passed > 1) {
-        return $minutes_passed . " минут назад";
+    } else if ($hours_passed >= 1) {
+        return floor($hours_passed) . " часов назад";
+    } else if ($minutes_passed >= 1) {
+        return floor($minutes_passed) . " минут назад";
     } else {
         return "только что";
     }
@@ -29,7 +29,7 @@ function format_time($ts) {
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> 
     <title>DC Ply Mens 2016/2017 Snowboard</title>
     <link href="css/normalize.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -127,11 +127,11 @@ function format_time($ts) {
                 <div class="history">
                     <h3>История ставок (<span><?=count($bets)?></span>)</h3>
                     <table class="history__list">
-                        <?php foreach ($bets as $key => $val): ?>
+                        <?php foreach ($bets as $bet): ?>
                             <tr class="history__item">
-                                <td class="history__name"><?=$val['name']?></td>
-                                <td class="history__price"><?=$val['price']?> р</td>
-                                <td class="history__time"><?=format_time($val['ts'])?></td>
+                                <td class="history__name"><?=$bet['name']?></td>
+                                <td class="history__price"><?=$bet['price']?> р</td>
+                                <td class="history__time"><?=format_time($bet['ts'])?></td>
                             </tr>
                         <?php endforeach ?>
                     </table>
