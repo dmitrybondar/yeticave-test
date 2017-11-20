@@ -1,17 +1,3 @@
-<?php
-// устанавливаем часовой пояс в Московское время
-date_default_timezone_set('Europe/Moscow');
-
-$tomorrow = strtotime('tomorrow midnight');
-$now = strtotime('now');
-$remaining_seconds = $tomorrow - $now;
-
-$hours = floor(($remaining_seconds % 86400) / 3600);
-$minutes = floor(($remaining_seconds % 3600) / 60);
-
-$lot_time_remaining = $hours . ":" . $minutes;
-?>
-
 <section class="promo">
     <h2 class="promo__title">Нужен стафф для катки?</h2>
     <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
