@@ -5,7 +5,6 @@ include "data.php";
 $page_content = renderTemplate('templates/index.php', [
     'categories' => $categories,
     'lots' => $lots,
-    'lotTimeRemaining' => $lotTimeRemaining
 ]);
 
 $layout_content = renderTemplate('templates/layout.php', [
