@@ -28,7 +28,7 @@
                             <span class="lot__cost"><?=$lot['price'];?><b class="rub">р</b></span>
                         </div>
                         <div class="lot__timer timer">
-                            <?=$lotTimeRemaining;?>
+                            <?=timeRemaining($lot['date']);?>
                         </div>
                     </div>
                 </div>

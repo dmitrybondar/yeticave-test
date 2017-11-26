@@ -25,3 +25,26 @@ function formatTime($ts) {
         return "только что";
     }
 }
+
+function timeRemaining($date) {
+    date_default_timezone_set('Europe/Moscow');
+    $end_date = strtotime($date);
+    $now = strtotime('now');
+    $remainingSeconds = $end_date - $now;
+    $days = floor(($remainingSeconds / 86400));
+    $hours = floor(($remainingSeconds % 86400) / 3600);
+    $minutes = floor(($remainingSeconds % 3600) / 60);
+    $lotTimeRemaining = $days . "d" . $hours . "h" . $minutes . "m";
+
+    return $lotTimeRemaining;
+}
+
+function validate($error, $rule) {
+    if (isset($error)) {
+        if ($rule == 'class') {
+            return 'form__item--invalid';
+        } else if ($rule == 'message') {
+            return $error;
+        }
+    }
+}
