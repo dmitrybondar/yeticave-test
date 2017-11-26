@@ -34,9 +34,9 @@ function timeRemaining($date) {
     $days = floor(($remainingSeconds / 86400));
     $hours = floor(($remainingSeconds % 86400) / 3600);
     $minutes = floor(($remainingSeconds % 3600) / 60);
-    $lotTimeRemaining = $days . "d" . $hours . "h" . $minutes . "m";
+    $timeRemaining = $days . ":" . $hours . ":" . $minutes;
 
-    return $lotTimeRemaining;
+    return $timeRemaining;
 }
 
 function validate($error, $rule) {
