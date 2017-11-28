@@ -8,13 +8,13 @@ if (!$lot) {
     http_response_code(404);
 }
 
-$hide_bets = false;
-$bet_error = null;
+$canAddNewBet = true;
+$betError = null;
 
-if(isset($_COOKIE['my_lots'])) {
-    $array_my_bets = unserialize($_COOKIE['my_lots']);
+if(isset($_COOKIE['my_bets'])) {
+    $array_my_bets = json_decode($_COOKIE['my_bets'], true);
     if(array_key_exists($_GET['lot_id'], $array_my_bets)) {
-        $hide_bets = true;
+        $canAddNewBet = false;
     }
 }
 
@@ -30,10 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             "bet_date" => strtotime('now'),
         ];
         $array_my_bets[$_GET['lot_id']] = $new_bet;
-        setcookie('my_lots', serialize($array_my_bets), time() + (86400 * 30), '/');
-        header('Location: /mylots.php');
+        setcookie('my_bets', json_encode($array_my_bets), time() + (86400 * 30), '/');
+        header('Location: /mybets.php');
     } else {
-        $bet_error = 'Число должно быть не меньше минимальной ставки';
+        $betError = 'Число должно быть не меньше минимальной ставки';
     }
 }
 
@@ -41,8 +41,8 @@ $page_content = renderTemplate('templates/view.php', [
     'categories' => $categories,
     'bets' => $bets,
     'lot' => $lot,
-    'hide_bets' => $hide_bets,
-    'bet_error' => $bet_error
+    'canAddNewBet' => $canAddNewBet,
+    'betError' => $betError
 ]);
 
 $layout_content = renderTemplate('templates/layout.php', [

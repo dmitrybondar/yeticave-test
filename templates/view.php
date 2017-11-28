@@ -26,12 +26,12 @@
                             Мин. ставка <span><?=$lot['min-cost'];?> р</span>
                         </div>
                     </div>
-                    <?php if(!$hide_bets): ?>
+                    <?php if($canAddNewBet): ?>
                         <form class="lot-item__form" method="post">
-                            <p class="lot-item__form-item <?=isset($bet_error)? "form__item--invalid" : "";?>">
+                            <p class="lot-item__form-item <?=isset($betError)? "form__item--invalid" : "";?>">
                                 <label for="cost">Ваша ставка</label>
                                 <input id="cost" type="number" name="cost" placeholder="<?=$lot['min-cost'];?>">
-                                <span class="form__error"><?=isset($bet_error)? $bet_error : "";?></span>
+                                <span class="form__error"><?=isset($betError)? $betError : "";?></span>
                             </p>
                             <button type="submit" class="button">Сделать ставку</button>
                         </form>

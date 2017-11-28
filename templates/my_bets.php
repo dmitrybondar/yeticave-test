@@ -4,20 +4,6 @@
     <table class="rates__list">
         <? if (count($array_my_bets)) :?>
             <?php foreach ($array_my_bets as $key => $bet): ?>
-                <?php
-                date_default_timezone_set('Europe/Moscow');
-                $remainingSeconds = strtotime($bet['lot_date']) - strtotime('now');
-                $itemStatus = null;
-                $timerClass = null;
-                $timerText = timeRemaining($bet['lot_date']);
-                if ($remainingSeconds <= 0) {
-                    $itemStatus = 'rates__item--end';
-                    $timerClass = 'timer--end';
-                    $timerText = 'Торги окончены';
-                } else if ($remainingSeconds < 86400) {
-                    $timerClass = 'timer--finishing';
-                }
-                ?>
                 <tr class="rates__item <?=$itemStatus;?>">
                     <td class="rates__info">
                         <div class="rates__img">
@@ -29,7 +15,7 @@
                         <?=$bet['category'];?>
                     </td>
                     <td class="rates__timer">
-                        <div class="timer <?=$timerClass;?>"><?=$timerText;?></div> <!-- timer--finishing -->
+                        <div class="timer"><?=timeRemaining($bet['lot_date']);?></div> <!-- timer--finishing -->
                     </td>
                     <td class="rates__price">
                         <?=$bet['cost'];?> р
