@@ -39,12 +39,14 @@ function timeRemaining($date) {
     return $timeRemaining;
 }
 
-function validate($error, $rule) {
-    if (isset($error)) {
-        if ($rule == 'class') {
-            return 'form__item--invalid';
-        } else if ($rule == 'message') {
-            return $error;
+function searchUserByEmail($email, $users) {
+    $result = null;
+    foreach ($users as $user) {
+        if ($user['email'] == $email) {
+            $result = $user;
+            break;
         }
     }
+
+    return $result;
 }

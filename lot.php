@@ -2,6 +2,8 @@
 include "functions.php";
 include "data.php";
 
+session_start();
+
 $lot = (isset($_GET['lot_id']) && isset($lots[$_GET['lot_id']])) ? $lots[$_GET['lot_id']] : null;
 
 if (!$lot) {
@@ -48,9 +50,6 @@ $page_content = renderTemplate('templates/view.php', [
 $layout_content = renderTemplate('templates/layout.php', [
     'content' => $page_content,
     'title' => 'yeticave - Просмотр лота',
-    'isAuth' => $isAuth,
-    'userName' => $userName,
-    'userAvatar' => $userAvatar,
     'mainClass' => ''
 ]);
 

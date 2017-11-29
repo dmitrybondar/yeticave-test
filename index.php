@@ -2,6 +2,8 @@
 include "functions.php";
 include "data.php";
 
+session_start();
+
 $page_content = renderTemplate('templates/index.php', [
     'categories' => $categories,
     'lots' => $lots,
@@ -10,9 +12,6 @@ $page_content = renderTemplate('templates/index.php', [
 $layout_content = renderTemplate('templates/layout.php', [
     'content' => $page_content,
     'title' => 'yeticave - Главная',
-    'isAuth' => $isAuth,
-    'userName' => $userName,
-    'userAvatar' => $userAvatar,
     'mainClass' => 'container'
 ]);
 
