@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = [];
 
     foreach ($required as $name) {
-        if (array_key_exists($name, $lot) && !$lot[$name]) {
+        if (!array_key_exists($name, $lot) || empty($lot[$name])) {
             $errors[$name] = 'Это поле надо заполнить';
         }
     }
