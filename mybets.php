@@ -1,8 +1,7 @@
 <?php
 include "functions.php";
 include "data.php";
-
-session_start();
+include "authorization.php";
 
 $array_my_bets = [];
 if(isset($_COOKIE['my_bets'])) {
@@ -18,7 +17,8 @@ $page_content = renderTemplate('templates/my_bets.php', [
 $layout_content = renderTemplate('templates/layout.php', [
     'content' => $page_content,
     'title' => 'Мои лоты',
-    'mainClass' => ''
+    'mainClass' => '',
+    'currentUser' => $currentUser
 ]);
 
 echo $layout_content;

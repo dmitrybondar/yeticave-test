@@ -50,3 +50,8 @@ function searchUserByEmail($email, $users) {
 
     return $result;
 }
+
+function redirectToIndex() {
+    header("Location: /");
+    exit();
+}

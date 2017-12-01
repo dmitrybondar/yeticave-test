@@ -1,11 +1,11 @@
 <?php
 include "functions.php";
 include "data.php";
-
-session_start();
+include "authorization.php";
 
 if (!isset($_SESSION['user'])) {
     http_response_code(403);
+    exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -75,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $layout_content = renderTemplate('templates/layout.php', [
     'content' => $page_content,
     'title' => 'Добавить лот',
-    'mainClass' => ''
+    'mainClass' => '',
+    'currentUser' => $currentUser
 ]);
 
 echo $layout_content;

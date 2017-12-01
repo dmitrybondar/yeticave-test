@@ -5,6 +5,10 @@ include "userdata.php";
 
 session_start();
 
+if(isset($_SESSION['user'])) {
+    redirectToIndex();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $form = $_POST;
 
@@ -17,12 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if (!empty($form['email'])) {
+    if (!empty($form['email']) && !count($errors)) {
         if ($user = searchUserByEmail($form['email'], $users)) {
             if (password_verify($form['password'], $user['password'])) {
                 $_SESSION['user'] = $user;
             }
-            else if (!empty($form['password'])) {
+            else {
                 $errors['password'] = 'Неверный пароль';
             }
         }
@@ -39,8 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]);
     }
     else {
-        header("Location: /");
-        exit();
+        redirectToIndex();
     }
 }
 else {

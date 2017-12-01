@@ -20,12 +20,12 @@
         </form>
         <a class="main-header__add-lot button" href="/add.php">Добавить лот</a>
         <nav class="user-menu">
-            <?php if(isset($_SESSION['user'])): ?>
+            <?php if(isset($currentUser)): ?>
                 <div class="user-menu__image">
-                    <img src="img/user.jpg" width="40" height="40" alt="Пользователь">
+                    <img src="<?=$currentUser['userAvatar']; ?>" width="40" height="40" alt="Пользователь">
                 </div>
                 <div class="user-menu__logged">
-                    <p><?=strip_tags($_SESSION['user']['name']); ?></p>
+                    <p><?=$currentUser['userName']; ?></p>
                     <p><a href="/logout.php">Выход</a></p>
                 </div>
             <?php else: ?>
