@@ -1,6 +1,7 @@
 <?php
 include "functions.php";
 include "data.php";
+include "authorization.php";
 
 $page_content = renderTemplate('templates/index.php', [
     'categories' => $categories,
@@ -10,10 +11,8 @@ $page_content = renderTemplate('templates/index.php', [
 $layout_content = renderTemplate('templates/layout.php', [
     'content' => $page_content,
     'title' => 'yeticave - Главная',
-    'isAuth' => $isAuth,
-    'userName' => $userName,
-    'userAvatar' => $userAvatar,
-    'mainClass' => 'container'
+    'mainClass' => 'container',
+    'currentUser' => $currentUser
 ]);
 
 echo $layout_content;
