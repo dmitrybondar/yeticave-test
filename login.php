@@ -2,11 +2,10 @@
 include "functions.php";
 include "data.php";
 include "userdata.php";
+include "authorization.php";
 
-session_start();
-
-if(isset($_SESSION['user'])) {
-    redirectToIndex();
+if($currentUser['isAuthorised']) {
+    redirectTo();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -21,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if (!empty($form['email']) && !count($errors)) {
+    if (!count($errors)) {
         if ($user = searchUserByEmail($form['email'], $users)) {
             if (password_verify($form['password'], $user['password'])) {
                 $_SESSION['user'] = $user;
@@ -43,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]);
     }
     else {
-        redirectToIndex();
+        redirectTo();
     }
 }
 else {
@@ -55,7 +54,8 @@ else {
 $layout_content = renderTemplate('templates/layout.php', [
     'content' => $page_content,
     'title' => 'Вход на сайт',
-    'mainClass' => ''
+    'mainClass' => '',
+    'currentUser' => $currentUser
 ]);
 
 echo $layout_content;

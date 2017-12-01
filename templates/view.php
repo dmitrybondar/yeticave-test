@@ -13,7 +13,7 @@
                 <?php endif; ?>
             </div>
             <div class="lot-item__right">
-                <?php if(isset($currentUser)): ?>
+                <?php if($currentUser['isAuthorised']): ?>
                     <div class="lot-item__state">
                         <div class="lot-item__timer timer">
                             <?=timeRemaining($lot['date']);?>

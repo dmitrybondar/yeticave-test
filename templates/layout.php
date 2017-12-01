@@ -20,7 +20,7 @@
         </form>
         <a class="main-header__add-lot button" href="/add.php">Добавить лот</a>
         <nav class="user-menu">
-            <?php if(isset($currentUser)): ?>
+            <?php if($currentUser['isAuthorised']): ?>
                 <div class="user-menu__image">
                     <img src="<?=$currentUser['userAvatar']; ?>" width="40" height="40" alt="Пользователь">
                 </div>

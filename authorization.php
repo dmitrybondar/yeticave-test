@@ -3,9 +3,14 @@ session_start();
 
 if(isset($_SESSION['user'])) {
     $currentUser = [
-        'userName' => strip_tags($_SESSION['user']['name']),
+        'userName' => htmlspecialchars($_SESSION['user']['name']),
         'userAvatar' => 'img/user.jpg',
+        'isAuthorised' => true,
     ];
 } else {
-    $currentUser = null;
+    $currentUser = [
+        'userName' => '',
+        'isAuthorised' => false,
+        'userAvatar' => 'img/unauthorised-user.jpg',
+    ];
 }

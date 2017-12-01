@@ -31,7 +31,7 @@ if (!$lot) {
             ];
             $array_my_bets[$_GET['lot_id']] = $new_bet;
             setcookie('my_bets', json_encode($array_my_bets), time() + (86400 * 30), '/');
-            header('Location: /mybets.php');
+            redirectTo('/mybets.php');
         } else {
             $betError = 'Число должно быть не меньше минимальной ставки';
         }
