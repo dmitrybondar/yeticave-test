@@ -1,5 +1,7 @@
 <?php
 include "functions.php";
+include "mysql_helper.php";
+include "init.php";
 include "data.php";
 include "userdata.php";
 include "authorization.php";
