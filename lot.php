@@ -1,14 +1,27 @@
 <?php
+include "authorization.php";
 include "functions.php";
 include "mysql_helper.php";
 include "init.php";
-include "data.php";
-include "authorization.php";
 
-$lot = (isset($_GET['lot_id']) && isset($lots[$_GET['lot_id']])) ? $lots[$_GET['lot_id']] : null;
+//$lot = (isset($_GET['lot_id']) && isset($lots[$_GET['lot_id']])) ? $lots[$_GET['lot_id']] : null;
 
 $canAddNewBet = true;
 $betError = null;
+
+$id = intval($_GET['lot_id']);
+//$sql = "SELECT gifs.id, title, path, description, show_count, like_count, users.name, category_id FROM gifs "
+//    . "JOIN users ON gifs.user_id = users.id "
+//    . "WHERE gifs.id = " . $id;
+
+try {
+    $lot = getSqlData($con, 'array', 'SELECT l.`id`, l.`title`, `img`, `price`, `end_date`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `end_date` > NOW() AND `winner_id` IS NULL AND l.`id` = ' . $id);
+    print '<pre>';
+    print_r($lot);
+    print '</pre>';
+} catch (Exception $e) {
+    renderErrorTemplate($e->getMessage(), $currentUser);
+}
 
 if (!$lot) {
     http_response_code(404);

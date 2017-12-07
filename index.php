@@ -5,8 +5,8 @@ include "mysql_helper.php";
 include "init.php";
 
 try {
-    $categories = getSqlData($con, 'SELECT * FROM `categories`');
-    $lots = getSqlData($con, 'SELECT l.`id`, l.`title`, `img`, `price`, `end_date`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `end_date` > NOW() AND `winner_id` IS NULL;');
+    $categories = getSqlData($con, 'all', 'SELECT * FROM `categories`');
+    $lots = getSqlData($con, 'all', 'SELECT l.`id`, l.`title`, `img`, `price`, `end_date`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `end_date` > NOW() AND `winner_id` IS NULL;');
 } catch (Exception $e) {
     renderErrorTemplate($e->getMessage(), $currentUser);
 }
