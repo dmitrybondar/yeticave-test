@@ -7,6 +7,8 @@ include "init.php";
 //ignat.v@gmail.com
 //ug0GdVMi
 
+//test
+
 try {
     $categories = fetchAll($con, 'SELECT * FROM `categories`');
     $lots = fetchAll($con, 'SELECT l.`id`, l.`title`, `img`, `price`, `end_date`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `end_date` > NOW() AND `winner_id` IS NULL;');
