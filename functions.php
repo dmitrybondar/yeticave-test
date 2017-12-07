@@ -72,13 +72,17 @@ function renderErrorTemplate($error, $currentUser) {
     exit();
 }
 
-function getSqlData($con, $fetch, $sql) {
+function fetchAll($con, $sql) {
     if ($result = mysqli_query($con, $sql)) {
-        if ($fetch == 'all') {
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);
-        } else if ($fetch == 'array') {
-            return mysqli_fetch_array($result, MYSQLI_ASSOC);
-        }
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } else {
+        throw new Exception(mysqli_error($con));
+    }
+}
+
+function fetchOne($con, $sql) {
+    if ($result = mysqli_query($con, $sql)) {
+        return mysqli_fetch_array($result, MYSQLI_ASSOC);
     } else {
         throw new Exception(mysqli_error($con));
     }

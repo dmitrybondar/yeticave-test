@@ -4,9 +4,12 @@ include "functions.php";
 include "mysql_helper.php";
 include "init.php";
 
+//ignat.v@gmail.com
+//ug0GdVMi
+
 try {
-    $categories = getSqlData($con, 'all', 'SELECT * FROM `categories`');
-    $lots = getSqlData($con, 'all', 'SELECT l.`id`, l.`title`, `img`, `price`, `end_date`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `end_date` > NOW() AND `winner_id` IS NULL;');
+    $categories = fetchAll($con, 'SELECT * FROM `categories`');
+    $lots = fetchAll($con, 'SELECT l.`id`, l.`title`, `img`, `price`, `end_date`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `end_date` > NOW() AND `winner_id` IS NULL;');
 } catch (Exception $e) {
     renderErrorTemplate($e->getMessage(), $currentUser);
 }

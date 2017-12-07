@@ -15,7 +15,8 @@ $id = intval($_GET['lot_id']);
 //    . "WHERE gifs.id = " . $id;
 
 try {
-    $lot = getSqlData($con, 'array', 'SELECT l.`id`, l.`title`, `img`, `price`, `end_date`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `end_date` > NOW() AND `winner_id` IS NULL AND l.`id` = ' . $id);
+    $categories = fetchAll($con, 'SELECT * FROM `categories`');
+    $lot = fetchOne($con, 'SELECT l.`title`, `img`, `description`, `price`, `end_date`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `end_date` > NOW() AND `winner_id` IS NULL AND l.`id` = ' . $id);
     // print '<pre>';
     print_r($lot);
     // print '</pre>';

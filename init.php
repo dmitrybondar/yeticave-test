@@ -1,7 +1,7 @@
 <?php
 define('DB_HOST','localhost');
 define('DB_LOGIN','root');
-define('DB_PASS','');
+define('DB_PASS','root');
 define('DB_NAME','yeticave');
 
 $con = mysqli_connect(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
