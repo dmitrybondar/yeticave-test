@@ -55,3 +55,27 @@ function redirectTo($path = "/") {
     header("Location: {$path}");
     exit();
 }
+
+function renderErrorTemplate($error, $currentUser) {
+    $page_content = renderTemplate('templates/error.php', [
+        'error' => $error
+    ]);
+
+    $layout_content = renderTemplate('templates/layout.php', [
+        'content' => $page_content,
+        'title' => 'Ошибка',
+        'mainClass' => 'container',
+        'currentUser' => $currentUser
+    ]);
+
+    echo $layout_content;
+    exit();
+}
+
+function getSqlData($con, $sql) {
+    if ($result = mysqli_query($con, $sql)) {
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } else {
+        throw new Exception(mysqli_error($con));
+    }
+}
