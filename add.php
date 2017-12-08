@@ -1,26 +1,35 @@
 <?php
+include "authorization.php";
 include "functions.php";
 include "mysql_helper.php";
 include "init.php";
-include "data.php";
-include "authorization.php";
 
-if (!isset($_SESSION['user'])) {
+if (!$currentUser['isAuthorised']) {
     http_response_code(403);
-    exit();
+    redirectTo('/login.php');
+}
+
+try {
+    $categories = fetchAll($con, 'SELECT * FROM `categories`');
+} catch (Exception $e) {
+    renderErrorTemplate($e->getMessage(), $currentUser);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot = $_POST;
+
+//    echo '<pre>';
+//    print_r($lot);
+//    print_r($_FILES);
+//    echo '</pre>';
 
     $required = [
         'title',
         'description',
         'category',
         'price',
-        'min-cost',
-        'date',
-        'img'
+        'min_bet',
+        'end_date',
     ];
     $is_numeric = [
         'price',
@@ -41,14 +50,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (!empty($_FILES['img']['name'])) {
-        $tmp_name = $_FILES['img']['tmp_name'];
+        $tmpName = $_FILES['img']['tmp_name'];
         $path = 'img/uploads/' . $_FILES['img']['name'];
-        $file_type = $_FILES['img']['type'];
+        $fileType = $_FILES['img']['type'];
 
-        if ($file_type !== "image/jpeg") {
+        if ($fileType !== "image/jpeg") {
             $errors['img'] = 'Загрузите картинку в формате jpg';
         } else {
-            move_uploaded_file($tmp_name, $path);
+            move_uploaded_file($tmpName, $path);
             $lot['img'] = $path;
         }
     } else {
@@ -62,11 +71,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'categories' => $categories,
         ]);
     } else {
-        $page_content = renderTemplate('templates/view.php', [
-            'lot' => $lot,
-            'categories' => $categories,
-            'bets' => $bets,
-        ]);
+        mysqli_report(MYSQLI_REPORT_ALL);
+        try {
+            $sql = 'INSERT INTO lots (`start_date`, `category_id`, `user_id`, `title`, `description`, `end_date`, `price`, `min_bet`, `img`) VALUES (NOW(), ?, 3, ?, ?, ?, ?, ?, ?)';
+            $stmt = mysqli_prepare($con, $sql);
+            mysqli_stmt_bind_param($stmt, 'isssiis', $lot['category'], $lot['title'], $lot['description'], $lot['end_date'], $lot['price'], $lot['min_bet'], $lot['img']);
+            mysqli_stmt_execute($stmt);
+        } catch (Exception $e) {
+            renderErrorTemplate($e->getMessage(), $currentUser);
+        }
+
+        $lot_id = mysqli_insert_id($con);
+        redirectTo("/lot.php?lot_id=" . $lot_id);
+        echo "ЛОТ ЗАГРУЖЕН!!!";
     }
 } else {
     $page_content = renderTemplate('templates/add_lot.php', [
@@ -75,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $layout_content = renderTemplate('templates/layout.php', [
+    'categories' => $categories,
     'content' => $page_content,
     'title' => 'Добавить лот',
     'mainClass' => '',

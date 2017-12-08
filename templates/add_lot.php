@@ -12,7 +12,7 @@
             <select id="category" name="category">
                 <option value="">Выберите категорию</option>
                 <?php foreach($categories as $category): ?>
-                    <option <?=(isset($lot['category']) && $lot['category'] == $category['title'])? 'selected' : '';?>><?=$category['title'];?></option>
+                    <option value="<?=$category['id'];?>" <?=(isset($lot['category']) && $lot['category'] == $category['id'])? 'selected' : '';?>><?=$category['title'];?></option>
                 <?php endforeach; ?>
             </select>
             <span class="form__error"><?=isset($errors['category'])? $errors['category'] : "";?></span>
@@ -45,15 +45,15 @@
             <input id="price" type="number" name="price" placeholder="0" value="<?=isset($lot['price'])? $lot['price'] : '';?>">
             <span class="form__error"><?=isset($errors['price'])? $errors['price'] : "";?></span>
         </div>
-        <div class="form__item form__item--small <?=isset($errors['min-cost'])? "form__item--invalid" : "";?>">
-            <label for="min-cost">Шаг ставки</label>
-            <input id="min-cost" type="number" name="min-cost" placeholder="0" value="<?=isset($lot['min-cost'])? $lot['min-cost'] : '';?>">
-            <span class="form__error"><?=isset($errors['min-cost'])? $errors['min-cost'] : "";?></span>
+        <div class="form__item form__item--small <?=isset($errors['min_bet'])? "form__item--invalid" : "";?>">
+            <label for="min_bet">Шаг ставки</label>
+            <input id="min_bet" type="number" name="min_bet" placeholder="0" value="<?=isset($lot['min_bet'])? $lot['min_bet'] : '';?>">
+            <span class="form__error"><?=isset($errors['min_bet'])? $errors['min_bet'] : "";?></span>
         </div>
-        <div class="form__item <?=isset($errors['date'])? "form__item--invalid" : "";?>">
+        <div class="form__item <?=isset($errors['end_date'])? "form__item--invalid" : "";?>">
             <label for="date">Дата окончания торгов</label>
-            <input class="form__input-date" id="date" type="date" name="date" value="<?=isset($lot['date'])? $lot['date'] : '';?>">
-            <span class="form__error"><?=isset($errors['date'])? $errors['date'] : "";?></span>
+            <input class="form__input-date" id="date" type="date" name="end_date" value="<?=isset($lot['end_date'])? $lot['end_date'] : '';?>">
+            <span class="form__error"><?=isset($errors['end_date'])? $errors['end_date'] : "";?></span>
         </div>
     </div>
     <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>

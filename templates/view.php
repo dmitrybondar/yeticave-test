@@ -16,7 +16,7 @@
                 <?php if($currentUser['isAuthorised']): ?>
                     <div class="lot-item__state">
                         <div class="lot-item__timer timer">
-                            <?=timeRemaining($lot['date']);?>
+                            <?=timeRemaining($lot['end_date']);?>
                         </div>
                         <div class="lot-item__cost-state">
                             <div class="lot-item__rate">
@@ -24,14 +24,14 @@
                                 <span class="lot-item__cost"><?=$lot['price'];?></span>
                             </div>
                             <div class="lot-item__min-cost">
-                                Мин. ставка <span><?=$lot['min-cost'];?> р</span>
+                                Мин. ставка <span><?=$lot['min_bet'];?> р</span>
                             </div>
                         </div>
                         <?php if($canAddNewBet): ?>
                             <form class="lot-item__form" method="post">
                                 <p class="lot-item__form-item <?=isset($betError)? "form__item--invalid" : "";?>">
                                     <label for="cost">Ваша ставка</label>
-                                    <input id="cost" type="number" name="cost" placeholder="<?=$lot['min-cost'];?>">
+                                    <input id="cost" type="number" name="cost" placeholder="<?=$lot['min_bet'];?>">
                                     <span class="form__error"><?=isset($betError)? $betError : "";?></span>
                                 </p>
                                 <button type="submit" class="button">Сделать ставку</button>
