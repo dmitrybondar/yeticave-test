@@ -10,13 +10,14 @@ function renderTemplate($file, $vars) {
     }
 }
 
-function formatTime($ts) {
-    $secondsPassed = strtotime('now') - $ts;
+function formatTime($date) {
+    $date = strtotime($date);
+    $secondsPassed = strtotime('now') - $date;
     $hoursPassed = $secondsPassed / 3600;
     $minutesPassed = $secondsPassed / 60;
 
     if ($hoursPassed >= 24) {
-        return date("d.m.Y \в H:i", $ts);
+        return date("d.m.Y \в H:i", $date);
     } else if ($hoursPassed >= 1) {
         return floor($hoursPassed) . " часов назад";
     } else if ($minutesPassed >= 1) {
@@ -31,11 +32,14 @@ function timeRemaining($date) {
     $end_date = strtotime($date);
     $now = strtotime('now');
     $remainingSeconds = $end_date - $now;
-    $days = floor(($remainingSeconds / 86400));
-    $hours = floor(($remainingSeconds % 86400) / 3600);
-    $minutes = floor(($remainingSeconds % 3600) / 60);
-    $timeRemaining = $days . ":" . $hours . ":" . $minutes;
-
+    if ($remainingSeconds > 0) {
+        $days = floor(($remainingSeconds / 86400));
+        $hours = floor(($remainingSeconds % 86400) / 3600);
+        $minutes = floor(($remainingSeconds % 3600) / 60);
+        $timeRemaining = $days . ":" . $hours . ":" . $minutes;
+    } else {
+        $timeRemaining = "Время вышло";
+    }
     return $timeRemaining;
 }
 

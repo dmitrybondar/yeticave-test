@@ -45,10 +45,10 @@
             <input id="price" type="number" name="price" placeholder="0" value="<?=isset($lot['price'])? $lot['price'] : '';?>">
             <span class="form__error"><?=isset($errors['price'])? $errors['price'] : "";?></span>
         </div>
-        <div class="form__item form__item--small <?=isset($errors['min_bet'])? "form__item--invalid" : "";?>">
-            <label for="min_bet">Шаг ставки</label>
-            <input id="min_bet" type="number" name="min_bet" placeholder="0" value="<?=isset($lot['min_bet'])? $lot['min_bet'] : '';?>">
-            <span class="form__error"><?=isset($errors['min_bet'])? $errors['min_bet'] : "";?></span>
+        <div class="form__item form__item--small <?=isset($errors['bet_step'])? "form__item--invalid" : "";?>">
+            <label for="bet_step">Шаг ставки</label>
+            <input id="bet_step" type="number" name="bet_step" placeholder="0" value="<?=isset($lot['bet_step'])? $lot['bet_step'] : '';?>">
+            <span class="form__error"><?=isset($errors['bet_step'])? $errors['bet_step'] : "";?></span>
         </div>
         <div class="form__item <?=isset($errors['end_date'])? "form__item--invalid" : "";?>">
             <label for="date">Дата окончания торгов</label>

@@ -4,54 +4,53 @@ include "functions.php";
 include "mysql_helper.php";
 include "init.php";
 
-$canAddNewBet = true;
-$betError = null;
-
 $lot_id = (isset($_GET['lot_id'])) ? intval($_GET['lot_id']) : null;
 try {
     $categories = fetchAll($con, 'SELECT * FROM `categories`');
-    $lot = fetchOne($con, 'SELECT l.`title`, `img`, `description`, `price`, `end_date`, `min_bet`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `end_date` > NOW() AND `winner_id` IS NULL AND l.`id` = ' . $lot_id);
+    $lot = fetchOne($con, "SELECT l.`title`, `img`, `description`, `price`, `end_date`, `bet_step`, `user_id`, c.`title` AS `category` FROM lots l JOIN categories c ON l.`category_id` = c.`id` WHERE `winner_id` IS NULL AND l.`id` = '$lot_id'");
+    $bets = fetchAll($con, "SELECT `date`, `value`, `name` FROM `bets` JOIN users ON `user_id` = users.`id` WHERE `lot_id` = '$lot_id' ORDER BY `date` DESC");
+    $maxBet = fetchOne($con, "SELECT MAX(value) as value FROM bets WHERE lot_id='$lot_id'");
 } catch (Exception $e) {
     renderErrorTemplate($e->getMessage(), $currentUser);
 }
 
-//print '<pre>';
-//print_r($lot);
-//print '</pre>';
-
-if(isset($_COOKIE['my_bets'])) {
-    $array_my_bets = json_decode($_COOKIE['my_bets'], true);
-    if(array_key_exists($_GET['lot_id'], $array_my_bets)) {
-        $canAddNewBet = false;
-    }
+//Блок добавления ставки не показывается если: пользователь не авторизован, срок размещения лота истёк, лот создан текущим пользователем, пользователь уже добавлял ставку для этого лота
+if (!$currentUser || time() >= strtotime($lot['end_date']) || $lot['user_id'] == $currentUser['id'] || mysqli_num_rows(mysqli_query($con, "SELECT `user_id` FROM `bets` WHERE `lot_id` = '$lot_id' AND `user_id` = '$currentUser[id]'")) > 0) {
+    $canAddNewBet = false;
+} else {
+    $canAddNewBet = true;
 }
-
+$betError = null;
+if ($maxBet['value'] > $lot['price']) {
+    $lot['price'] = $maxBet['value'];
+}
+$minBet = $lot['price'] + $lot['bet_step'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if(intval($_POST['cost']) >= $lot['min-cost']) {
-        $new_bet = [
-            "id" => $_GET['lot_id'],
-            "cost" => $_POST['cost'],
-            "title" => $lot['title'],
-            "img" => $lot['img'],
-            "category" => $lot['category'],
-            "lot_date" => $lot['date'],
-            "bet_date" => strtotime('now'),
-        ];
-        $array_my_bets[$_GET['lot_id']] = $new_bet;
-        setcookie('my_bets', json_encode($array_my_bets), time() + (86400 * 30), '/');
-        redirectTo('/mybets.php');
+    if (!empty($_POST['value'])) {
+        if(intval($_POST['value']) >= $minBet && is_numeric($_POST['value']) && is_int($_POST['value']+0)) {
+            mysqli_report(MYSQLI_REPORT_ALL);
+            try {
+                mysqli_query($con, "INSERT INTO bets (lot_id, user_id, value, date) VALUES ('$lot_id', '$currentUser[id]', '$_POST[value]', NOW())");
+            } catch (Exception $e) {
+                renderErrorTemplate($e->getMessage(), $currentUser);
+            }
+            header("Refresh:0");
+            exit();
+        } else {
+            $betError = 'Введите целое число не меньше минимальной ставки';
+        }
     } else {
-        $betError = 'Число должно быть не меньше минимальной ставки';
+        $betError = 'Это поле надо заполнить';
     }
 }
 
 $page_content = renderTemplate('templates/view.php', [
     'categories' => $categories,
-//    'bets' => $bets,
-    'bets' => '',
+    'bets' => $bets,
     'lot' => $lot,
     'canAddNewBet' => $canAddNewBet,
     'betError' => $betError,
+    'minBet' => $minBet,
     'currentUser' => $currentUser
 ]);
 
