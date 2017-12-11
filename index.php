@@ -4,19 +4,6 @@ include "functions.php";
 include "mysql_helper.php";
 include "init.php";
 
-//ignat.v@gmail.com
-//ug0GdVMi
-
-//kitty_93@li.ru
-//daecNazD
-
-//warrior07@mail.ru
-//oixb3aL8
-
-//echo '<pre>';
-//print_r($_SERVER);
-//echo '</pre>';
-
 $pagination = pagination($con, '', '', 3, "SELECT COUNT(id) as `cnt` FROM `lots` WHERE `end_date` > NOW() AND `winner_id` IS NULL");
 try {
     $categories = fetchAll($con, 'SELECT * FROM `categories`');
